@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-label="Founder profile placeholder">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#F3E9D7" stop-opacity="1" />
+      <stop offset="1" stop-color="#8B6B4A" stop-opacity="0.35" />
+    </linearGradient>
+    <radialGradient id="glow" cx="30%" cy="20%" r="70%">
+      <stop offset="0" stop-color="#8B6B4A" stop-opacity="0.35" />
+      <stop offset="1" stop-color="#8B6B4A" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+
+  <rect width="256" height="256" fill="url(#bg)" />
+  <circle cx="80" cy="70" r="120" fill="url(#glow)" />
+
+  <!-- Soft silhouette placeholder -->
+  <g fill="none" stroke="#1F1A14" stroke-opacity="0.35" stroke-width="10" stroke-linecap="round">
+    <path d="M128 132c25 0 44-19 44-44s-19-44-44-44-44 19-44 44 19 44 44 44Z" />
+    <path d="M54 232c10-44 45-76 74-76s64 32 74 76" />
+  </g>
+
+  <g fill="#1F1A14" fill-opacity="0.10">
+    <path d="M128 56c-18 0-32 14-32 32s14 32 32 32 32-14 32-32-14-32-32-32Z" />
+    <path d="M54 232c10-44 45-76 74-76s64 32 74 76H54Z" />
+  </g>
+</svg>
+
