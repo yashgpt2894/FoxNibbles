@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FoxNibbles | Roasted Makhana</title>
+
+    <!-- Premium fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Outfit:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ["Outfit", "system-ui", "Segoe UI", "Arial", "sans-serif"],
+              display: ["Fraunces", "ui-serif", "Georgia", "serif"],
+            },
+            colors: {
+              ink: "#211A14",
+              clay: "#A17652",
+              sand: "#F0E6D4",
+              oat: "#FCF7ED",
+              leaf: "#6D6A3B",
+            },
+            boxShadow: {
+              soft: "0 16px 45px rgba(31, 26, 20, 0.08)",
+              faint: "0 10px 30px rgba(31, 26, 20, 0.06)",
+            },
+          },
+        },
+      };
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+      /* Subtle texture without external assets. */
+      .texture:after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        opacity: 0.14;
+        background-image: repeating-linear-gradient(
+          45deg,
+          rgba(161, 118, 82, 0.16) 0px,
+          rgba(161, 118, 82, 0.16) 1px,
+          transparent 1px,
+          transparent 6px
+        );
+        mix-blend-mode: multiply;
+      }
+
+      ::selection {
+        background: rgba(161, 118, 82, 0.22);
+      }
+
+      /* Premium scroll reveals (Framer-like) */
+      .reveal {
+        opacity: 0;
+        transform: translateY(14px);
+        transition:
+          opacity 0.32s ease,
+          transform 0.32s ease;
+        transition-delay: var(--d, 0ms);
+        will-change: opacity, transform;
+      }
+
+      .reveal.is-visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .reveal {
+          opacity: 1;
+          transform: none;
+          transition: none;
+        }
+      }
+
+      /* Button micro-interactions (hover + tap) */
+      .btn-press {
+        touch-action: manipulation;
+        will-change: transform;
+        transition:
+          transform 160ms ease,
+          background-color 160ms ease,
+          border-color 160ms ease;
+      }
+
+      .btn-press:hover {
+        transform: translateZ(0) scale(1.03);
+      }
+
+      .btn-press:active {
+        transform: scale(0.98);
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .btn-press {
+          transition: none;
+        }
+        .btn-press:hover,
+        .btn-press:active {
+          transform: none;
+        }
+      }
+
+      /* Staggered elements inside revealed sections */
+      [data-stagger-item] {
+        opacity: 0;
+        transform: translateY(14px);
+        transition:
+          opacity 0.28s ease,
+          transform 0.28s ease;
+        transition-delay: var(--item-delay, 0ms);
+        will-change: opacity, transform;
+      }
+
+      [data-stagger-item].is-visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        [data-stagger-item] {
+          opacity: 1;
+          transform: none;
+          transition: none;
+        }
+      }
+    </style>
+  </head>
+
+  <body class="font-sans antialiased bg-oat text-ink">
+    <div class="texture relative min-h-screen bg-[radial-gradient(ellipse_at_top,rgba(161,118,82,0.14),transparent_56%),radial-gradient(ellipse_at_bottom,rgba(240,230,212,0.92),transparent_55%)]">
+      <!-- Navbar -->
+      <header class="sticky top-0 z-50 border-b border-ink/10 bg-white/70 backdrop-blur-xl shadow-faint">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 py-4">
+          <div class="flex items-center justify-between gap-4">
+            <a href="#top" class="group inline-flex items-center gap-3">
+              <span
+                class="inline-flex h-9 w-9 items-center justify-center rounded-2xl bg-white/70 ring-1 ring-clay/20"
+                aria-hidden="true"
+              >
+                <img src="./assets/logo.png" alt="FoxNibbles logo" class="h-8 w-8 object-contain" loading="lazy" />
+              </span>
+              <span class="leading-tight">
+                <span class="block text-xl font-semibold tracking-tight">FoxNibbles</span>
+              </span>
+            </a>
+
+            <nav class="hidden items-center gap-7 lg:flex">
+              <a href="#benefits" class="text-sm text-ink/70 hover:text-ink">Benefits</a>
+              <a href="#about" class="text-sm text-ink/70 hover:text-ink">About Makhana</a>
+              <a href="#founder" class="text-sm text-ink/70 hover:text-ink">Founder</a>
+            </nav>
+
+            <div class="flex items-center gap-2">
+              <a
+                href="#cta"
+                class="hidden sm:inline-flex items-center justify-center rounded-2xl bg-clay px-6 py-2.5 text-sm font-semibold text-white shadow-faint ring-1 ring-clay/25 hover:bg-[#76563b] transition focus:outline-none focus-visible:ring-2 focus-visible:ring-clay/35 btn-press"
+              >
+                Order Now
+                <svg
+                  class="ml-2 h-4 w-4"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M5 12h12M13 6l6 6-6 6"
+                    stroke="white"
+                    stroke-width="1.8"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </a>
+
+              <details class="relative lg:hidden">
+                <summary
+                  class="list-none cursor-pointer inline-flex items-center justify-center rounded-2xl border border-ink/10 bg-white/65 px-3 py-2 hover:bg-white transition"
+                  aria-label="Open menu"
+                >
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4 7h16M4 12h16M4 17h16" stroke="#1F1A14" stroke-width="1.7" stroke-linecap="round" />
+                  </svg>
+                </summary>
+                <div class="absolute right-0 mt-3 w-56 rounded-2xl border border-ink/10 bg-white/80 backdrop-blur shadow-faint">
+                  <div class="p-3 flex flex-col gap-2">
+                    <a href="#benefits" class="rounded-xl px-3 py-2 text-sm text-ink/80 hover:bg-sand/60">Benefits</a>
+                    <a href="#about" class="rounded-xl px-3 py-2 text-sm text-ink/80 hover:bg-sand/60">About Makhana</a>
+                    <a href="#founder" class="rounded-xl px-3 py-2 text-sm text-ink/80 hover:bg-sand/60">Founder</a>
+                    <a
+                      href="#cta"
+                      class="rounded-xl px-4 py-2.5 text-sm font-semibold bg-clay text-white shadow-faint ring-1 ring-clay/25 hover:bg-[#76563b] transition focus:outline-none focus-visible:ring-2 focus-visible:ring-clay/35 btn-press"
+                    >
+                      Order Now
+                      <svg
+                        class="ml-2 inline-block h-4 w-4"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M5 12h12M13 6l6 6-6 6"
+                          stroke="white"
+                          stroke-width="1.8"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                      </svg>
+                    </a>
+                  </div>
+                </div>
+              </details>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Hero -->
+      <main id="top">
+        <section
+          class="reveal mx-auto max-w-7xl px-4 sm:px-6 pt-16 sm:pt-20 lg:pt-28 pb-12 lg:pb-20"
+          data-reveal
+          style="--d: 0ms;"
+        >
+          <div class="relative isolate grid items-start gap-12 lg:items-center lg:grid-cols-12">
+            <div
+              aria-hidden="true"
+              class="absolute inset-0 -z-10 rounded-3xl bg-[radial-gradient(ellipse_at_top,rgba(161,118,82,0.18),transparent_60%),radial-gradient(ellipse_at_bottom,rgba(240,230,212,0.86),transparent_55%)]"
+            ></div>
+            <div class="lg:col-span-6">
+              <div
+                class="inline-flex items-center gap-2 rounded-full border border-ink/10 bg-white/70 px-3 py-1.5"
+                data-stagger-item
+              >
+                <span class="h-1.5 w-1.5 rounded-full bg-clay" aria-hidden="true"></span>
+                <span class="text-xs text-ink/70">Roasted fox nuts for a clean, mindful crunch</span>
+              </div>
+
+              <h1
+                class="mt-6 font-display max-w-2xl text-4xl sm:text-5xl lg:text-6xl leading-[1.1] tracking-tight"
+                data-stagger-item
+              >
+                Roasted snack for modern snacking.
+              </h1>
+              <p class="mt-4 text-lg sm:text-xl leading-relaxed text-ink/70 max-w-xl" data-stagger-item>
+                FoxNibbles brings fox nuts (makhana) to your everyday—light, roasted, and beautifully simple.
+                Better snacking habits start with quality.
+              </p>
+
+              <div class="mt-7 flex flex-col sm:flex-row gap-3 sm:items-center" data-stagger-item>
+                <a
+                  href="#cta"
+                  class="group inline-flex items-center justify-center rounded-2xl bg-clay px-7 py-3.5 text-base font-semibold text-white shadow-faint ring-1 ring-clay/25 hover:bg-[#76563b] transition focus:outline-none focus-visible:ring-2 focus-visible:ring-clay/35 btn-press"
+                >
+                  <span>Shop FoxNibbles</span>
+                  <svg
+                    class="ml-2 h-4 w-4 transition-transform group-hover:translate-x-0.5"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M5 12h12M13 6l6 6-6 6"
+                      stroke="white"
+                      stroke-width="1.8"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                </a>
+                <a
+                  href="#benefits"
+                  class="inline-flex items-center justify-center rounded-2xl border border-ink/10 bg-white/70 px-7 py-3.5 text-base font-semibold text-ink/85 hover:bg-white transition focus:outline-none focus-visible:ring-2 focus-visible:ring-ink/15 btn-press"
+                >
+                  Why FoxNibbles?
+                </a>
+              </div>
+
+              <div class="mt-8 grid grid-cols-2 sm:grid-cols-3 gap-3 max-w-md">
+                <div class="rounded-2xl border border-ink/10 bg-white/65 p-5 shadow-faint" data-stagger-item>
+                  <div class="text-sm font-semibold">Low-oil</div>
+                  <div class="text-xs text-ink/65 mt-1">Mindful roasting</div>
+                </div>
+                <div class="rounded-2xl border border-ink/10 bg-white/65 p-5 shadow-faint" data-stagger-item>
+                  <div class="text-sm font-semibold">High in protein</div>
+                  <div class="text-xs text-ink/65 mt-1">Better snacking energy</div>
+                </div>
+                <div class="rounded-2xl border border-ink/10 bg-white/65 p-5 shadow-faint" data-stagger-item>
+                  <div class="text-sm font-semibold">Crunchy</div>
+                  <div class="text-xs text-ink/65 mt-1">Roasted finish</div>
+                </div>
+                <div class="rounded-2xl border border-ink/10 bg-white/65 p-5 shadow-faint" data-stagger-item>
+                  <div class="text-sm font-semibold">Gluten-free</div>
+                  <div class="text-xs text-ink/65 mt-1">Clean ingredients</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="lg:col-span-6">
+              <div class="relative isolate overflow-hidden rounded-3xl border border-ink/10 bg-white/65 backdrop-blur p-6 sm:p-8 shadow-faint">
+                <div
+                  aria-hidden="true"
+                  class="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_right,rgba(161,118,82,0.18),transparent_60%),radial-gradient(ellipse_at_top,rgba(240,230,212,0.86),transparent_55%)]"
+                ></div>
+                <div class="absolute -right-10 -top-10 h-44 w-44 rounded-full bg-clay/20 blur-2xl"></div>
+                <div class="absolute -bottom-14 -left-10 h-44 w-44 rounded-full bg-sand/80 blur-3xl"></div>
+
+                <div class="relative">
+                  <div class="flex items-center justify-between gap-4" data-stagger-item>
+                    <div>
+                      <div class="text-xs tracking-widest text-ink/55">ROASTED IN SMALL BATCHES</div>
+                      <div class="mt-1 text-lg font-semibold">Fox Nuts, Perfected</div>
+                    </div>
+                    <span class="rounded-full border border-ink/10 bg-white/65 px-3 py-1 text-xs font-semibold text-ink/80">
+                      Premium
+                    </span>
+                  </div>
+
+                  <div class="mt-6">
+                    <div class="aspect-[4/3] w-full overflow-hidden rounded-2xl border border-ink/10 bg-white/40" data-stagger-item>
+                      <img
+                        src="./assets/makhana-product.png"
+                        alt="Roasted makhana in a bowl"
+                        class="h-full w-full object-cover"
+                        loading="lazy"
+                      />
+                    </div>
+                  </div>
+
+                  <div class="mt-6 grid grid-cols-2 gap-3">
+                    <div class="rounded-2xl border border-ink/10 bg-white/65 p-5 shadow-faint" data-stagger-item>
+                      <div class="text-sm font-semibold">Nutty aroma</div>
+                      <div class="text-xs text-ink/65 mt-1">Roasted notes</div>
+                    </div>
+                    <div class="rounded-2xl border border-ink/10 bg-white/65 p-5 shadow-faint" data-stagger-item>
+                      <div class="text-sm font-semibold">Light & satisfying</div>
+                      <div class="text-xs text-ink/65 mt-1">Everyday snack</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </section>
+
+        <!-- Benefits -->
+        <section
+          id="benefits"
+          class="reveal scroll-mt-24 mx-auto max-w-7xl px-4 sm:px-6 py-14 lg:py-20"
+          data-reveal
+          style="--d: 70ms;"
+        >
+          <div class="relative isolate overflow-hidden rounded-3xl border border-ink/10 bg-white/65 backdrop-blur p-6 sm:p-8 shadow-faint">
+            <div
+              aria-hidden="true"
+              class="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_left,rgba(161,118,82,0.18),transparent_55%),radial-gradient(ellipse_at_right,rgba(240,230,212,0.92),transparent_60%)]"
+            ></div>
+
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+              <div>
+                <div
+                  class="inline-flex items-center gap-2 rounded-full border border-ink/10 bg-white/65 px-3 py-1 text-xs text-ink/70"
+                  data-stagger-item
+                >
+                  <span class="h-1.5 w-1.5 rounded-full bg-clay" aria-hidden="true"></span>
+                  Premium roasted makhana
+                </div>
+                <h2 class="mt-4 font-display text-3xl sm:text-4xl" data-stagger-item>Benefits</h2>
+                <p class="mt-3 text-ink/70 max-w-xl leading-relaxed" data-stagger-item>
+                  Thoughtfully roasted fox nuts designed for mindful snacking—clean taste, premium crunch.
+                </p>
+              </div>
+
+              <div class="text-sm text-ink/60 max-w-sm" data-stagger-item>
+                Premium nutrition you can actually enjoy.
+              </div>
+            </div>
+
+            <div class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+              <div class="group rounded-2xl border border-ink/10 bg-white/70 p-6 transition hover:-translate-y-0.5 hover:shadow-faint" data-stagger-item>
+                <span class="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-sand/80 ring-1 ring-clay/20">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2l3 7 7 3-7 3-3 7-3-7-7-3 7-3 3-7Z" stroke="#8B6B4A" stroke-width="1.7" stroke-linejoin="round" />
+                  </svg>
+                </span>
+                <div class="mt-4 text-base font-semibold">Roasted for crunch</div>
+                <p class="mt-2 text-sm text-ink/70 leading-relaxed">
+                  Small-batch roasting brings out a clean, satisfying texture.
+                </p>
+              </div>
+
+              <div class="group rounded-2xl border border-ink/10 bg-white/70 p-6 transition hover:-translate-y-0.5 hover:shadow-faint" data-stagger-item>
+                <span class="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-sand/80 ring-1 ring-clay/20">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4 12c2.2-3.6 5.4-5.6 8-6 2.6.4 5.8 2.4 8 6-2.2 3.6-5.4 5.6-8 6-2.6-.4-5.8-2.4-8-6Z" stroke="#8B6B4A" stroke-width="1.7" />
+                    <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" stroke="#1F1A14" stroke-opacity="0.35" stroke-width="1.7" />
+                  </svg>
+                </span>
+                <div class="mt-4 text-base font-semibold">Quality-first ingredients</div>
+                <p class="mt-2 text-sm text-ink/70 leading-relaxed">
+                  Focused on simplicity—so the snack tastes premium, not processed.
+                </p>
+              </div>
+
+              <div class="group rounded-2xl border border-ink/10 bg-white/70 p-6 transition hover:-translate-y-0.5 hover:shadow-faint" data-stagger-item>
+                <span class="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-sand/80 ring-1 ring-clay/20">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M7 3h10v6H7V3Z" stroke="#8B6B4A" stroke-width="1.7" />
+                    <path d="M6 9v12h12V9" stroke="#1F1A14" stroke-opacity="0.35" stroke-width="1.7" stroke-linecap="round" />
+                    <path d="M9 13h6" stroke="#8B6B4A" stroke-width="1.7" stroke-linecap="round" />
+                  </svg>
+                </span>
+                <div class="mt-4 text-base font-semibold">Gluten-free & vegan</div>
+                <p class="mt-2 text-sm text-ink/70 leading-relaxed">
+                  An easy snack choice for everyday routines and lifestyles.
+                </p>
+              </div>
+
+              <div class="group rounded-2xl border border-ink/10 bg-white/70 p-6 transition hover:-translate-y-0.5 hover:shadow-faint" data-stagger-item>
+                <span class="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-sand/80 ring-1 ring-clay/20">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 21s-7-4.4-9.3-9C.3 7.1 3.2 3 7.2 3c1.8 0 3.3.8 4.8 2.2C13.5 3.8 15 3 16.8 3c4 0 6.9 4.1 4.5 9-2.3 4.6-9.3 9-9.3 9Z" stroke="#8B6B4A" stroke-width="1.7" stroke-linejoin="round" />
+                  </svg>
+                </span>
+                <div class="mt-4 text-base font-semibold">Better snacking habits</div>
+                <p class="mt-2 text-sm text-ink/70 leading-relaxed">
+                  A light, satisfying crunch that fits between meals.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- About Makhana -->
+        <section
+          id="about"
+          class="reveal scroll-mt-24 mx-auto max-w-7xl px-4 sm:px-6 py-14 lg:py-20"
+          data-reveal
+          style="--d: 120ms;"
+        >
+          <div class="grid gap-8 lg:grid-cols-12 items-center">
+            <div class="lg:col-span-6">
+              <div
+                class="rounded-3xl border border-ink/10 bg-white/65 backdrop-blur p-6 sm:p-8 relative overflow-hidden shadow-faint"
+                data-stagger-item
+              >
+                <div class="absolute -right-12 -top-12 h-44 w-44 rounded-full bg-clay/18 blur-2xl"></div>
+                <div class="relative">
+                  <h2 class="font-display text-3xl sm:text-4xl">About Makhana</h2>
+                  <p class="mt-3 text-ink/70 max-w-xl">
+                    Roasted makhana (fox nuts) have long been cherished across India. At FoxNibbles, we
+                    keep it simple: roast for aroma and crunch, so each bite feels clean and premium.
+                  </p>
+
+                  <div class="mt-6 space-y-3">
+                    <div class="flex gap-3">
+                      <span class="mt-1 inline-flex h-7 w-7 items-center justify-center rounded-xl bg-sand/70 ring-1 ring-clay/20">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M20 6 9 17l-5-5" stroke="#8B6B4A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                      </span>
+                      <div>
+                        <div class="font-semibold">Nutty, roasted flavor</div>
+                        <div class="text-sm text-ink/70">A taste profile that feels warm and balanced.</div>
+                      </div>
+                    </div>
+
+                    <div class="flex gap-3">
+                      <span class="mt-1 inline-flex h-7 w-7 items-center justify-center rounded-xl bg-sand/70 ring-1 ring-clay/20">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M20 6 9 17l-5-5" stroke="#8B6B4A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                      </span>
+                      <div>
+                        <div class="font-semibold">Light on the day</div>
+                        <div class="text-sm text-ink/70">A snack that supports better routines.</div>
+                      </div>
+                    </div>
+
+                    <div class="flex gap-3">
+                      <span class="mt-1 inline-flex h-7 w-7 items-center justify-center rounded-xl bg-sand/70 ring-1 ring-clay/20">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M20 6 9 17l-5-5" stroke="#8B6B4A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                      </span>
+                      <div>
+                        <div class="font-semibold">Made for everyday moments</div>
+                        <div class="text-sm text-ink/70">From work breaks to evening cravings.</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="mt-7 flex flex-col sm:flex-row gap-3">
+                    <a href="#cta" class="inline-flex items-center justify-center rounded-2xl bg-clay px-6 py-3 text-sm font-semibold text-white hover:bg-[#76563b] transition btn-press">
+                      Get a Sample Pack
+                    </a>
+                    <a href="#founder" class="inline-flex items-center justify-center rounded-2xl border border-ink/15 bg-white/65 px-6 py-3 text-sm font-semibold text-ink/85 hover:bg-white transition focus:outline-none focus-visible:ring-2 focus-visible:ring-clay/35 btn-press">
+                      Meet Shivam Kumar
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="lg:col-span-6">
+              <div
+                class="rounded-3xl border border-ink/10 bg-white/65 backdrop-blur p-6 sm:p-8 overflow-hidden relative shadow-faint"
+                data-stagger-item
+              >
+                <div class="absolute -left-10 -bottom-16 h-44 w-44 rounded-full bg-sand/90 blur-3xl"></div>
+                <div class="relative">
+                  <div class="flex items-center justify-between gap-4">
+                    <div>
+                      <div class="text-xs tracking-widest text-ink/55">FOX NUTS • ROASTED</div>
+                      <div class="mt-1 text-lg font-semibold">Clean crunch, premium taste</div>
+                    </div>
+                    <span class="rounded-full border border-ink/10 bg-white/65 px-3 py-1 text-xs font-semibold text-ink/80">FoxNibbles</span>
+                  </div>
+
+                  <div class="mt-8">
+                    <div class="aspect-[4/3] w-full overflow-hidden rounded-2xl border border-ink/10 bg-white/40">
+                      <img
+                        src="./assets/makhana-product.png"
+                        alt="Roasted makhana in a bowl"
+                        class="h-full w-full object-cover"
+                        loading="lazy"
+                      />
+                    </div>
+                  </div>
+
+                  <div class="mt-6 grid sm:grid-cols-2 gap-3">
+                    <div class="rounded-2xl border border-ink/10 bg-white/70 p-4">
+                      <div class="text-sm font-semibold">Roasted aroma</div>
+                      <div class="text-xs text-ink/65 mt-1">Warm, nutty notes</div>
+                    </div>
+                    <div class="rounded-2xl border border-ink/10 bg-white/70 p-4">
+                      <div class="text-sm font-semibold">Premium crunch</div>
+                      <div class="text-xs text-ink/65 mt-1">Clean roasted finish</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </section>
+
+        <!-- Founder -->
+        <section
+          id="founder"
+          class="reveal scroll-mt-24 mx-auto max-w-7xl px-4 sm:px-6 py-14 lg:py-20"
+          data-reveal
+          style="--d: 170ms;"
+        >
+            <div class="rounded-3xl border border-ink/10 bg-white/65 backdrop-blur p-6 sm:p-8 shadow-faint">
+            <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+              <div>
+                <h2 class="font-display text-3xl sm:text-4xl">Meet the Founder</h2>
+                <p class="mt-2 text-ink/70 max-w-2xl">
+                  A product built with care: quality, simplicity, and better snacking habits.
+                </p>
+              </div>
+            </div>
+
+            <div class="mt-10 grid gap-8 lg:grid-cols-12 lg:items-center">
+              <!-- Image on left -->
+              <div class="lg:col-span-5" data-stagger-item>
+                <div class="flex items-start justify-start">
+                  <div class="relative rounded-full bg-sand/70 p-2 ring-1 ring-clay/20 shadow-faint">
+                    <div class="absolute -inset-3 rounded-full bg-clay/15 blur-2xl"></div>
+                    <img
+                      src="./assets/shuvam.png"
+                      alt="Shivam Kumar, Founder of FoxNibbles"
+                      class="relative h-40 w-40 rounded-full object-cover sm:h-44 sm:w-44"
+                      onerror="this.onerror=null;this.src='./assets/logo.png';"
+                      loading="lazy"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <!-- Text on right -->
+              <div class="lg:col-span-7" data-stagger-item>
+                <div class="rounded-2xl border border-ink/10 bg-white/70 p-6 sm:p-7">
+                  <div class="flex items-center justify-between gap-4">
+                    <div>
+                      <div class="text-sm tracking-widest text-ink/55">FOUNDER</div>
+                      <div class="mt-1 text-2xl font-semibold">Shivam Kumar</div>
+                      <div class="mt-1 text-sm text-ink/70">Founder of FoxNibbles</div>
+                    </div>
+                  </div>
+
+                  <p class="mt-5 text-base leading-relaxed text-ink/75">
+                    A passionate builder focused on bringing healthy Indian snacks like makhana to the modern world.
+                    Driven by quality, simplicity, and better snacking habits.
+                  </p>
+
+                  <div class="mt-7 flex flex-col sm:flex-row gap-3 sm:items-center">
+                    <a
+                      href="https://www.linkedin.com/in/shuvam-kr/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="inline-flex w-full sm:w-auto items-center justify-center rounded-2xl bg-[#0A66C2] px-6 py-3.5 text-sm font-semibold text-white shadow-faint ring-1 ring-[#0A66C2]/30 hover:bg-[#0959aa] transition btn-press"
+                    >
+                      <svg
+                        class="mr-2 h-4 w-4"
+                        viewBox="0 0 24 24"
+                        fill="currentColor"
+                        aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path d="M4.98 3.5a2.5 2.5 0 1 0 0 5.001A2.5 2.5 0 0 0 4.98 3.5ZM3 9h4v12H3V9Zm7 0h3.83v1.71h.05c.53-1 1.83-2.06 3.77-2.06 4.03 0 4.77 2.65 4.77 6.09V21h-4v-5.53c0-1.32-.02-3.01-1.84-3.01-1.84 0-2.12 1.44-2.12 2.92V21h-4V9Z"/>
+                      </svg>
+                      Connect on LinkedIn
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- CTA -->
+        <section
+          id="cta"
+          class="reveal scroll-mt-24 mx-auto max-w-7xl px-4 sm:px-6 py-14 lg:py-20"
+          data-reveal
+          style="--d: 220ms;"
+        >
+          <div class="overflow-hidden rounded-3xl border border-ink/10 bg-white/65 backdrop-blur shadow-faint">
+            <div class="relative p-8 sm:p-10">
+              <div class="absolute -right-24 -top-28 h-80 w-80 rounded-full bg-clay/15 blur-3xl"></div>
+              <div class="absolute -left-24 -bottom-28 h-80 w-80 rounded-full bg-sand/95 blur-3xl"></div>
+
+              <div class="relative grid gap-8 lg:grid-cols-12 items-center">
+              <div class="lg:col-span-7" data-stagger-item>
+                  <h2 class="font-display text-3xl sm:text-4xl leading-tight">
+                    Make snacking feel premium.
+                  </h2>
+                  <p class="mt-3 text-ink/70 max-w-xl">
+                    Start with roasted makhana—clean, crunchy, and built for everyday joy.
+                  </p>
+                </div>
+
+                <div class="lg:col-span-5" data-stagger-item>
+                  <div class="flex flex-col sm:flex-row gap-3 sm:justify-end">
+                    <a
+                      href="https://wa.me/31657435712?text=Hi%2C%20I%20want%20to%20order%20FoxNibbles%20makhana"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="inline-flex items-center justify-center rounded-2xl bg-[#25D366] px-6 py-3 text-sm font-semibold text-white shadow-faint hover:bg-[#1fb458] transition btn-press"
+                    >
+                      Order on WhatsApp
+                    </a>
+                    <a
+                      href="#top"
+                      class="inline-flex items-center justify-center rounded-2xl border border-ink/10 bg-white/70 px-6 py-3 text-sm font-semibold text-ink/85 hover:bg-white transition btn-press"
+                    >
+                      Explore the Brand
+                    </a>
+                    <a
+                      href="#"
+                      class="inline-flex items-center justify-center rounded-2xl bg-clay px-6 py-3 text-sm font-semibold text-white shadow-faint hover:bg-[#76563b] transition btn-press"
+                    >
+                      Shop FoxNibbles
+                    </a>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <!-- Footer -->
+      <footer class="reveal border-t border-ink/10 bg-white/35 backdrop-blur" data-reveal style="--d: 260ms;">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 py-12">
+          <div class="flex flex-col lg:flex-row gap-8 lg:items-start lg:justify-between">
+            <div class="max-w-sm" data-stagger-item>
+              <div class="inline-flex items-center gap-3">
+                <span
+                  class="inline-flex h-9 w-9 items-center justify-center rounded-2xl bg-white/70 ring-1 ring-clay/20"
+                  aria-hidden="true"
+                >
+                  <img src="./assets/logo.png" alt="FoxNibbles logo" class="h-8 w-8 object-contain" loading="lazy" />
+                </span>
+                <div>
+                  <div class="text-sm tracking-widest text-ink/70">FOX</div>
+                  <div class="text-lg font-semibold -mt-0.5 tracking-tight">FoxNibbles</div>
+                </div>
+              </div>
+              <p class="mt-4 text-sm text-ink/65">
+                Premium roasted makhana (fox nuts) for modern, mindful snacking.
+              </p>
+            </div>
+
+            <div class="grid grid-cols-2 gap-6 sm:gap-10" data-stagger-item>
+              <div>
+                <div class="text-sm font-semibold">Sections</div>
+                <div class="mt-3 flex flex-col gap-2 text-sm text-ink/70">
+                  <a class="hover:text-ink" href="#benefits">Benefits</a>
+                  <a class="hover:text-ink" href="#about">About Makhana</a>
+                  <a class="hover:text-ink" href="#founder">Founder</a>
+                </div>
+              </div>
+
+              <div>
+                <div class="text-sm font-semibold">Get in touch</div>
+                <div class="mt-3 flex flex-col gap-2 text-sm text-ink/70">
+                  <a class="hover:text-ink" href="https://www.linkedin.com/in/shuvam-kr/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                  <a class="hover:text-ink" href="mailto:shivamk38@gmail.com" rel="noopener noreferrer">shivamk38@gmail.com</a>
+                </div>
+                <div class="mt-3 text-xs text-ink/55">
+                  Crafted for clean, mindful snacking.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-10 border-t border-ink/10 pt-6 flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between text-sm text-ink/60">
+            <div>© <span id="year"></span> FoxNibbles. All rights reserved.</div>
+            <div class="flex gap-4">
+              <a href="#" class="hover:text-ink">Privacy</a>
+              <a href="#" class="hover:text-ink">Terms</a>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <script>
+      (function () {
+        const prefersReduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        const nodes = Array.from(document.querySelectorAll("[data-reveal]"));
+        if (!nodes.length) return;
+
+        const revealSection = (sectionEl) => {
+          sectionEl.classList.add("is-visible");
+          const items = Array.from(sectionEl.querySelectorAll("[data-stagger-item]"));
+          const baseDelayRaw = (sectionEl.style && sectionEl.style.getPropertyValue("--d")) || "";
+          const baseDelayMs = Number.parseFloat(String(baseDelayRaw).replace("ms", "").trim()) || 0;
+
+          items.forEach((itemEl, idx) => {
+            itemEl.style.setProperty("--item-delay", `${baseDelayMs + idx * 35}ms`);
+            itemEl.classList.add("is-visible");
+          });
+        };
+
+        if (prefersReduced || !("IntersectionObserver" in window)) {
+          nodes.forEach((n) => revealSection(n));
+          return;
+        }
+
+        const io = new IntersectionObserver(
+          (entries) => {
+            for (const entry of entries) {
+              if (entry.isIntersecting) {
+                revealSection(entry.target);
+                io.unobserve(entry.target);
+              }
+            }
+          },
+          {
+            threshold: 0.08,
+            rootMargin: "0px 0px -5% 0px",
+          }
+        );
+
+        nodes.forEach((n) => io.observe(n));
+      })();
+    </script>
+
+    <script>
+      // Keep footer year current.
+      document.getElementById("year").textContent = new Date().getFullYear();
+    </script>
+  </body>
+</html>
+

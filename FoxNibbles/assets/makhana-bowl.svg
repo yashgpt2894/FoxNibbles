@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 620" role="img" aria-label="Roasted makhana in a bowl">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#FCF7ED" />
+      <stop offset="1" stop-color="#F0E6D4" />
+    </linearGradient>
+    <radialGradient id="glow" cx="28%" cy="20%" r="70%">
+      <stop offset="0" stop-color="#A17652" stop-opacity="0.28" />
+      <stop offset="1" stop-color="#A17652" stop-opacity="0" />
+    </radialGradient>
+    <linearGradient id="bowl" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#F3E9D7" stop-opacity="0.95" />
+      <stop offset="1" stop-color="#8B6B4A" stop-opacity="0.18" />
+    </linearGradient>
+    <linearGradient id="shadow" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1F1A14" stop-opacity="0.12" />
+      <stop offset="1" stop-color="#1F1A14" stop-opacity="0" />
+    </linearGradient>
+  </defs>
+
+  <rect width="900" height="620" rx="40" fill="url(#bg)" />
+  <circle cx="230" cy="150" r="260" fill="url(#glow)" />
+
+  <!-- Floor shadow -->
+  <ellipse cx="450" cy="545" rx="250" ry="36" fill="url(#shadow)" />
+
+  <!-- Bowl -->
+  <g>
+    <path
+      d="M220 250c0 150 60 250 230 250s230-100 230-250c0-28-22-50-50-50H270c-28 0-50 22-50 50Z"
+      fill="url(#bowl)"
+      stroke="#1F1A14"
+      stroke-opacity="0.10"
+      stroke-width="4"
+    />
+    <path
+      d="M265 205c35-28 95-45 185-45s150 17 185 45"
+      fill="none"
+      stroke="#1F1A14"
+      stroke-opacity="0.14"
+      stroke-width="6"
+      stroke-linecap="round"
+    />
+    <path
+      d="M265 205c35-28 95-45 185-45s150 17 185 45"
+      fill="none"
+      stroke="#A17652"
+      stroke-opacity="0.20"
+      stroke-width="3"
+      stroke-linecap="round"
+    />
+  </g>
+
+  <!-- Makhana kernels -->
+  <g>
+    <!-- cluster 1 -->
+    <g fill="#F7F1E1" fill-opacity="0.95" stroke="#1F1A14" stroke-opacity="0.10" stroke-width="3">
+      <ellipse cx="375" cy="320" rx="36" ry="28" />
+      <ellipse cx="430" cy="310" rx="34" ry="26" />
+      <ellipse cx="485" cy="330" rx="38" ry="28" />
+      <ellipse cx="345" cy="355" rx="34" ry="26" />
+      <ellipse cx="420" cy="360" rx="40" ry="30" />
+      <ellipse cx="520" cy="360" rx="36" ry="27" />
+      <ellipse cx="460" cy="400" rx="44" ry="32" />
+      <ellipse cx="395" cy="395" rx="40" ry="30" />
+    </g>
+
+    <!-- cluster 2 -->
+    <g fill="#F7F1E1" fill-opacity="0.90" stroke="#1F1A14" stroke-opacity="0.10" stroke-width="3">
+      <ellipse cx="310" cy="410" rx="34" ry="26" />
+      <ellipse cx="355" cy="425" rx="40" ry="30" />
+      <ellipse cx="405" cy="430" rx="38" ry="29" />
+      <ellipse cx="455" cy="420" rx="42" ry="31" />
+      <ellipse cx="510" cy="430" rx="36" ry="27" />
+      <ellipse cx="545" cy="395" rx="34" ry="26" />
+      <ellipse cx="520" cy="380" rx="36" ry="27" />
+    </g>
+
+    <!-- warm highlights -->
+    <g fill="#A17652" fill-opacity="0.08">
+      <ellipse cx="405" cy="350" rx="70" ry="35" />
+      <ellipse cx="500" cy="395" rx="80" ry="36" />
+    </g>
+
+    <!-- subtle specks -->
+    <g fill="#8B6B4A" fill-opacity="0.18">
+      <circle cx="335" cy="305" r="6" />
+      <circle cx="460" cy="285" r="6" />
+      <circle cx="545" cy="320" r="7" />
+      <circle cx="360" cy="470" r="7" />
+      <circle cx="560" cy="470" r="6" />
+    </g>
+  </g>
+</svg>
+
